@@ -44,7 +44,7 @@
       } else {
         utterance.lang = arabic ? "ar-SA" : "en-US";
       }
-      utterance.rate = arabic ? 2.0 : 0.1;
+      utterance.rate = arabic ? 1.5 : 0.1;
       utterance.pitch = 1.03;
       utterance.volume = 1;
     } catch (_) {}
