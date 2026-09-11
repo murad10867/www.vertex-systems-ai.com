@@ -30,6 +30,45 @@
 
     <link rel="stylesheet" href="ai-sidebar-fix.css">
 
+    <style>
+        .upgrade-plan-btn {
+            min-height: 38px;
+            padding: 0 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            border: 1px solid rgba(69, 199, 255, 0.28);
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(20, 124, 244, 0.20), rgba(66, 199, 255, 0.10));
+            color: #dff5ff;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+            transition: transform .2s ease, border-color .2s ease, background .2s ease;
+        }
+
+        .upgrade-plan-btn:hover {
+            transform: translateY(-1px);
+            border-color: rgba(69, 199, 255, 0.55);
+            background: linear-gradient(135deg, rgba(20, 124, 244, 0.32), rgba(66, 199, 255, 0.16));
+            color: #ffffff;
+        }
+
+        @media (max-width: 650px) {
+            .upgrade-plan-btn {
+                width: 38px;
+                min-width: 38px;
+                padding: 0;
+            }
+
+            .upgrade-plan-btn .upgrade-label {
+                display: none;
+            }
+        }
+    </style>
+
     <!-- الحماية -->
     <script src="auth.js"></script>
 
@@ -89,6 +128,10 @@
                 </div>
                 <div class="topbar-actions">
                     <div class="ai-status"><span class="status-dot"></span>Local AI</div>
+                    <a href="plans.html" class="upgrade-plan-btn" title="ترقية الخطة" aria-label="ترقية خطة Vertex">
+                        <span>⬆️</span>
+                        <span class="upgrade-label">ترقية</span>
+                    </a>
                     <button id="renameChatBtn" class="icon-btn" title="إعادة تسمية المحادثة">✏️</button>
                     <button id="deleteChatBtn" class="icon-btn danger-icon" title="حذف المحادثة">🗑️</button>
                 </div>
