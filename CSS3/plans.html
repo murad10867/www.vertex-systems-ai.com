@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#08111f">
+  <meta name="description" content="خطط Vertex Systems AI: Free وPro وPlus باشتراك شهري بالريال السعودي.">
+  <title>الخطط والأسعار | Vertex Systems AI</title>
+  <link rel="icon" type="image/png" href="img/logo3.png">
+  <link rel="apple-touch-icon" href="img/logo3.png">
+  <link rel="stylesheet" href="plans.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="Vertex Systems AI">
+      <span class="brand-mark">V</span>
+      <span><strong>Vertex</strong><small>Systems AI</small></span>
+    </a>
+    <nav class="top-actions">
+      <a href="index.html" class="ghost-link">الرئيسية</a>
+      <a href="dashboard.html" class="ghost-link">لوحة التحكم</a>
+      <a id="accountLink" href="login.html" class="account-link">تسجيل الدخول</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <span class="eyebrow">VERTEX MEMBERSHIP</span>
+      <h1>اختر الخطة المناسبة لك</h1>
+      <p>ابدأ مجانًا، وطوّر حسابك متى احتجت إلى مزايا وحدود استخدام أعلى.</p>
+      <div id="currentPlanBadge" class="current-plan" hidden>خطتك الحالية: <strong>Free</strong></div>
+    </section>
+
+    <section class="plans-grid" aria-label="خطط Vertex">
+      <article class="plan-card free-card" data-plan="free">
+        <div class="plan-head">
+          <span class="plan-kicker">للبداية</span>
+          <h2>Free</h2>
+          <div class="price"><strong>0</strong><span>ريال / شهر</span></div>
+          <p>جرّب Vertex AI وابدأ استخدام الأنظمة الأساسية.</p>
+        </div>
+        <ul>
+          <li>✓ الوصول إلى Vertex AI</li>
+          <li>✓ محادثات أساسية</li>
+          <li>✓ حفظ المحادثات محليًا</li>
+          <li>✓ تجربة أدوات Vertex الأساسية</li>
+          <li class="muted">حدود استخدام أقل</li>
+        </ul>
+        <button class="plan-btn secondary" data-select-plan="free">الخطة المجانية</button>
+      </article>
+
+      <article class="plan-card pro-card" data-plan="pro">
+        <div class="ribbon">الأكثر توازنًا</div>
+        <div class="plan-head">
+          <span class="plan-kicker">استخدام أقوى</span>
+          <h2>Pro</h2>
+          <div class="price"><strong>19</strong><span>ريال / شهر</span></div>
+          <p>لمن يستخدم Vertex بشكل مستمر ويحتاج حدودًا أعلى.</p>
+        </div>
+        <ul>
+          <li>✓ كل مزايا Free</li>
+          <li>✓ حدود استخدام أعلى لـ Vertex AI</li>
+          <li>✓ أدوات البرمجة والمشاريع</li>
+          <li>✓ مزايا الذكاء الاصطناعي المتقدمة</li>
+          <li>✓ أولوية أعلى في المزايا الجديدة</li>
+        </ul>
+        <button class="plan-btn primary" data-select-plan="pro">اشترك في Pro</button>
+      </article>
+
+      <article class="plan-card plus-card" data-plan="plus">
+        <div class="plan-head">
+          <span class="plan-kicker">أعلى خطة</span>
+          <h2>Plus</h2>
+          <div class="price"><strong>39</strong><span>ريال / شهر</span></div>
+          <p>لأعلى حدود استخدام والوصول إلى أقوى مزايا Vertex.</p>
+        </div>
+        <ul>
+          <li>✓ كل مزايا Pro</li>
+          <li>✓ أعلى حدود استخدام متاحة</li>
+          <li>✓ مزايا الصور والصوت المتقدمة</li>
+          <li>✓ أولوية قصوى للأدوات الجديدة</li>
+          <li>✓ أفضل مستوى مخصص للمستخدم المكثف</li>
+        </ul>
+        <button class="plan-btn plus" data-select-plan="plus">اشترك في Plus</button>
+      </article>
+    </section>
+
+    <section class="billing-note">
+      <div class="shield">🛡️</div>
+      <div>
+        <h3>دفع آمن عبر Moyasar</h3>
+        <p>سيتم تنفيذ الدفع بالريال السعودي. لا يحتفظ Vertex ببيانات البطاقة داخل الموقع، ويتم التحقق من كل عملية دفع من الخادم قبل تفعيل الاشتراك.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>Vertex Systems AI © 2026</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="plans.js"></script>
+  <script src="site-analytics.js?v=20260911-billing-1"></script>
+</body>
+</html>
