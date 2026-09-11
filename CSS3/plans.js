@@ -44,8 +44,8 @@
       }
 
       if (accountLink) {
-        accountLink.href = "dashboard.html";
-        accountLink.textContent = "حسابي";
+        accountLink.href = "ai.html";
+        accountLink.textContent = "عودة";
       }
 
       const subscriptionResult = await supabaseClient
