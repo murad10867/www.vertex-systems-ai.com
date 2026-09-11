@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#08111f">
+  <meta name="robots" content="noindex,nofollow">
+  <title>الدفع | Vertex Systems AI</title>
+  <link rel="icon" type="image/png" href="img/logo3.png">
+  <link rel="stylesheet" href="billing.css">
+  <link rel="stylesheet" href="https://cdn.moyasar.com/mpf/1.15.0/moyasar.css">
+  <script src="auth.js"></script>
+</head>
+<body>
+  <main class="billing-shell">
+    <div class="billing-top">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">V</span>
+        <span class="brand-text"><strong>Vertex</strong><small>Systems AI</small></span>
+      </a>
+      <a class="back-link" href="plans.html">← العودة للخطط</a>
+    </div>
+
+    <section class="checkout-grid">
+      <article class="panel summary">
+        <span class="eyebrow">VERTEX SUBSCRIPTION</span>
+        <h1 id="planName">Vertex Pro</h1>
+        <p id="planDescription" class="muted">اشتراك شهري في Vertex Systems AI.</p>
+        <div class="plan-price"><strong id="planPrice">19</strong><span>ريال / شهر</span></div>
+        <ul class="summary-list" id="summaryList">
+          <li>✓ تفعيل على حسابك الحالي</li>
+          <li>✓ مدة الاشتراك شهر كامل</li>
+          <li>✓ التحقق من الدفع من خادم Vertex</li>
+        </ul>
+        <div class="secure-note">🔒 بيانات البطاقة لا تمر عبر خوادم Vertex. نموذج الدفع مقدم من Moyasar، ويتم استخدام المفتاح العام فقط داخل المتصفح.</div>
+      </article>
+
+      <article class="panel payment-panel">
+        <h2>إتمام الاشتراك</h2>
+        <p class="muted">الدفع بالريال السعودي عبر Moyasar.</p>
+        <div id="setupMessage" class="setup-message" hidden></div>
+        <div id="checkoutError" class="error-box" hidden></div>
+        <div class="mysr-form" id="moyasarForm"></div>
+      </article>
+    </section>
+  </main>
+
+  <script src="https://cdn.moyasar.com/mpf/1.15.0/moyasar.js"></script>
+  <script src="billing-config.js"></script>
+  <script src="checkout.js"></script>
+  <script src="site-analytics.js?v=20260911-billing-1"></script>
+</body>
+</html>
