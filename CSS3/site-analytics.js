@@ -1,4 +1,4 @@
-// Vertex Systems AI - first-party + Mixpanel analytics
+// Vertex Systems AI - first-party + Mixpanel EU analytics
 (function () {
     "use strict";
 
@@ -93,7 +93,7 @@
         }
     }
 
-    async function sendFirstPartyAnalytics(info) {
+    function sendFirstPartyAnalytics(info) {
         const headers = { "Content-Type": "application/json" };
         if (info && info.token) headers.Authorization = "Bearer " + info.token;
 
@@ -109,139 +109,81 @@
         });
     }
 
-    function installMixpanelSnippet() {
-        const current = window.mixpanel;
-        if (current && current.__SV) return;
+    function postMixpanel(path, data) {
+        const body = new URLSearchParams();
+        body.set("data", JSON.stringify(data));
 
-        const b = current || [];
-        window.mixpanel = b;
-        b._i = [];
-
-        b.init = function (token, config, name) {
-            function makeMethod(target, method) {
-                const parts = method.split(".");
-                if (parts.length === 2) {
-                    target = target[parts[0]];
-                    method = parts[1];
-                }
-                target[method] = function () {
-                    target.push([method].concat(Array.prototype.slice.call(arguments, 0)));
-                };
-            }
-
-            let instance = b;
-            if (typeof name !== "undefined") {
-                instance = b[name] = [];
-            } else {
-                name = "mixpanel";
-            }
-
-            instance.people = instance.people || [];
-            instance.toString = function (stub) {
-                let label = "mixpanel";
-                if (name !== "mixpanel") label += "." + name;
-                if (!stub) label += " (stub)";
-                return label;
-            };
-            instance.people.toString = function () {
-                return instance.toString(1) + ".people (stub)";
-            };
-
-            const methods = (
-                "disable time_event track track_pageview track_links track_forms track_with_groups " +
-                "add_group set_group remove_group register register_once alias unregister identify name_tag " +
-                "set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking " +
-                "clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset " +
-                "people.increment people.append people.union people.track_charge people.clear_charges " +
-                "people.delete_user people.remove"
-            ).split(" ");
-
-            for (let i = 0; i < methods.length; i++) {
-                makeMethod(instance, methods[i]);
-            }
-
-            const groupMethods = "set set_once union unset remove delete".split(" ");
-            instance.get_group = function () {
-                const group = {};
-                const groupArgs = ["get_group"].concat(Array.prototype.slice.call(arguments, 0));
-                for (let i = 0; i < groupMethods.length; i++) {
-                    const method = groupMethods[i];
-                    group[method] = function () {
-                        instance.push([groupArgs, [method].concat(Array.prototype.slice.call(arguments, 0))]);
-                    };
-                }
-                return group;
-            };
-
-            b._i.push([token, config, name]);
-        };
-
-        b.__SV = 1.2;
-
-        const script = document.createElement("script");
-        script.type = "text/javascript";
-        script.async = true;
-        script.src = "https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";
-        script.dataset.vertexMixpanel = "1";
-        script.onerror = function () {
+        return fetch(MIXPANEL_API_HOST + path + "?ip=1&verbose=1", {
+            method: "POST",
+            mode: "cors",
+            credentials: "omit",
+            keepalive: true,
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+                "Accept": "text/plain"
+            },
+            body: body.toString()
+        }).catch(function () {
             // Mixpanel failure must never affect Vertex.
-        };
-
-        const firstScript = document.getElementsByTagName("script")[0];
-        if (firstScript && firstScript.parentNode) {
-            firstScript.parentNode.insertBefore(script, firstScript);
-        } else {
-            document.head.appendChild(script);
-        }
+        });
     }
 
-    function loadMixpanel(info) {
-        try {
-            installMixpanelSnippet();
-            if (!window.mixpanel || typeof window.mixpanel.init !== "function") return;
-            if (window.__vertexMixpanelReady) return;
+    function mixpanelDistinctId(info) {
+        return info && info.user && info.user.id
+            ? info.user.id
+            : payload.visitor_id;
+    }
 
-            window.mixpanel.init(MIXPANEL_TOKEN, {
-                api_host: MIXPANEL_API_HOST,
-                persistence: "localStorage",
-                autocapture: false,
-                track_pageview: false,
-                debug: false
-            });
+    function trackMixpanelEvent(name, properties, info) {
+        const event = {
+            event: name,
+            properties: Object.assign({
+                token: MIXPANEL_TOKEN,
+                distinct_id: mixpanelDistinctId(info),
+                time: Math.floor(Date.now() / 1000),
+                "$insert_id": uuid()
+            }, properties || {})
+        };
 
-            window.__vertexMixpanelReady = true;
+        return postMixpanel("/track", event);
+    }
 
-            if (info && info.user && info.user.id) {
-                window.mixpanel.identify(info.user.id);
-                window.mixpanel.people.set({
-                    "Registered User": true
-                });
+    function setMixpanelProfile(info) {
+        if (!info || !info.user || !info.user.id) return;
+
+        return postMixpanel("/engage", {
+            "$token": MIXPANEL_TOKEN,
+            "$distinct_id": info.user.id,
+            "$set": {
+                "Registered User": true
             }
+        });
+    }
 
-            window.mixpanel.track("Page Viewed", {
-                "Page Path": payload.page_path,
-                "Page Title": payload.page_title,
-                "Device Type": payload.device_type,
-                "Referrer Host": payload.referrer_host || "direct",
-                "Language": payload.language || "unknown",
+    function sendMixpanelAnalytics(info) {
+        setMixpanelProfile(info);
+
+        trackMixpanelEvent("Page Viewed", {
+            "Page Path": payload.page_path,
+            "Page Title": payload.page_title,
+            "Device Type": payload.device_type,
+            "Referrer Host": payload.referrer_host || "direct",
+            "Language": payload.language || "unknown",
+            "Signed In": !!(info && info.user)
+        }, info);
+
+        const path = String(payload.page_path || "").toLowerCase();
+        if (/\/ai\.html$/.test(path)) {
+            trackMixpanelEvent("Vertex AI Opened", {
                 "Signed In": !!(info && info.user)
-            });
-
-            const path = String(payload.page_path || "").toLowerCase();
-            if (/\/ai\.html$/.test(path)) {
-                window.mixpanel.track("Vertex AI Opened", {
-                    "Signed In": !!(info && info.user)
-                });
-            }
-        } catch (_) {
-            // Analytics must never affect the user experience.
+            }, info);
         }
     }
 
     async function send() {
         const info = await sessionInfo();
         sendFirstPartyAnalytics(info);
-        loadMixpanel(info);
+        sendMixpanelAnalytics(info);
     }
 
     if (document.readyState === "loading") {
