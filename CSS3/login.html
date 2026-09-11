@@ -1,675 +1,138 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
     <link rel="icon" type="image/png" href="img/logo3.png">
     <link rel="apple-touch-icon" href="img/logo3.png">
     <meta name="theme-color" content="#08111f">
     <meta name="robots" content="noindex, nofollow">
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="description"
-        content="تسجيل الدخول إلى Vertex Systems AI"
-    >
-
-    <title>
-        تسجيل الدخول | Vertex Systems AI
-    </title>
-
-    <link
-        rel="stylesheet"
-        href="login.css"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="تسجيل الدخول إلى Vertex Systems AI">
+    <title>تسجيل الدخول | Vertex Systems AI</title>
+    <link rel="stylesheet" href="login.css">
 </head>
-
-
 <body>
-
-
-    <!-- =========================================
-         الخلفية
-    ========================================== -->
-
     <div class="background">
-
         <div class="background-grid"></div>
-
         <div class="glow glow-one"></div>
-
         <div class="glow glow-two"></div>
-
-        <div
-            class="particles"
-            id="particles"
-        ></div>
-
+        <div class="particles" id="particles"></div>
     </div>
-
-
-
-    <!-- =========================================
-         الصفحة
-    ========================================== -->
 
     <main class="login-page">
-
-
-        <!-- =====================================
-             الجانب التعريفي
-        ====================================== -->
-
         <section class="info-side">
-
-
-            <!-- الشعار -->
-
-            <button
-                id="homeBtn"
-                class="brand"
-                aria-label="العودة إلى الصفحة الرئيسية"
-            >
-
-                <div class="brand-logo">
-                    V
-                </div>
-
-
-                <div>
-
-                    <strong>
-                        Vertex
-                    </strong>
-
-                    <span>
-                        Systems AI
-                    </span>
-
-                </div>
-
+            <button id="homeBtn" class="brand" aria-label="العودة إلى الصفحة الرئيسية">
+                <div class="brand-logo">V</div>
+                <div><strong>Vertex</strong><span>Systems AI</span></div>
             </button>
-
-
-
-            <!-- المحتوى -->
 
             <div class="info-content">
-
-
-                <div class="system-badge">
-
-                    <span class="badge-dot"></span>
-
-                    VERTEX ACCESS
-
-                </div>
-
-
-                <h1>
-                    بوابة الدخول إلى
-
-                    <span>
-                        Vertex Systems AI
-                    </span>
-                </h1>
-
-
-                <p>
-                    سجّل الدخول للوصول إلى لوحة التحكم
-                    وأنظمة الذكاء الاصطناعي والروبوتات
-                    والألعاب والويب والفضاء.
-                </p>
-
-
-
-                <!-- الأنظمة -->
+                <div class="system-badge"><span class="badge-dot"></span>VERTEX ACCESS</div>
+                <h1>بوابة الدخول إلى <span>Vertex Systems AI</span></h1>
+                <p>سجّل الدخول للوصول إلى لوحة التحكم وأنظمة الذكاء الاصطناعي والروبوتات والألعاب والويب والفضاء.</p>
 
                 <div class="systems-mini">
-
-
-                    <div>
-                        🤖
-                        <span>
-                            AI
-                        </span>
-                    </div>
-
-
-                    <div>
-                        🦾
-                        <span>
-                            Robots
-                        </span>
-                    </div>
-
-
-                    <div>
-                        🎮
-                        <span>
-                            Games
-                        </span>
-                    </div>
-
-
-                    <div>
-                        🌐
-                        <span>
-                            Web
-                        </span>
-                    </div>
-
-
-                    <div>
-                        🌌
-                        <span>
-                            Space
-                        </span>
-                    </div>
-
-
+                    <div>🤖 <span>AI</span></div>
+                    <div>🦾 <span>Robots</span></div>
+                    <div>🎮 <span>Games</span></div>
+                    <div>🌐 <span>Web</span></div>
+                    <div>🌌 <span>Space</span></div>
                 </div>
 
-
-
-                <!-- النظام المطلوب -->
-
-                <div
-                    id="requestedSystemBox"
-                    class="requested-system"
-                >
-
-                    <div
-                        id="requestedSystemIcon"
-                        class="requested-icon"
-                    >
-                        📊
-                    </div>
-
-
-                    <div>
-
-                        <span>
-                            سيتم نقلك بعد الدخول إلى
-                        </span>
-
-                        <strong id="requestedSystemName">
-                            لوحة التحكم
-                        </strong>
-
-                    </div>
-
+                <div id="requestedSystemBox" class="requested-system">
+                    <div id="requestedSystemIcon" class="requested-icon">📊</div>
+                    <div><span>سيتم نقلك بعد الدخول إلى</span><strong id="requestedSystemName">لوحة التحكم</strong></div>
                 </div>
-
-
             </div>
 
-
-
-            <!-- الأسفل -->
-
-            <div class="info-footer">
-
-                <span>
-                    Vertex Systems AI
-                </span>
-
-                <span>
-                    نسخة 1
-                </span>
-
-            </div>
-
-
+            <div class="info-footer"><span>Vertex Systems AI</span><span>نسخة 1</span></div>
         </section>
-
-
-
-        <!-- =====================================
-             نموذج تسجيل الدخول
-        ====================================== -->
 
         <section class="form-side">
-
-
             <div class="login-card">
-
-
-                <!-- رأس البطاقة -->
-
                 <div class="login-card-header">
-
-                    <div class="mobile-logo">
-                        V
-                    </div>
-
-
-                    <p class="small-label">
-                        WELCOME BACK
-                    </p>
-
-
-                    <h2>
-                        تسجيل الدخول
-                    </h2>
-
-
-                    <p>
-                        أدخل بياناتك للمتابعة إلى نظام Vertex.
-                    </p>
-
+                    <div class="mobile-logo">V</div>
+                    <p class="small-label">WELCOME BACK</p>
+                    <h2>تسجيل الدخول</h2>
+                    <p>أدخل بياناتك للمتابعة إلى نظام Vertex.</p>
                 </div>
 
-
-
-                <!-- =================================
-                     مستخدم مسجل بالفعل
-                ================================== -->
-
-                <div
-                    id="existingSession"
-                    class="existing-session"
-                >
-
-                    <div class="session-icon">
-                        👋
-                    </div>
-
-
-                    <div>
-
-                        <span>
-                            مرحباً بعودتك
-                        </span>
-
-                        <strong id="sessionUserName">
-                            مستخدم Vertex
-                        </strong>
-
-                    </div>
-
-
-                    <button
-                        id="continueSessionBtn"
-                        type="button"
-                    >
-                        متابعة
-                    </button>
-
-
-                    <button
-                        id="differentAccountBtn"
-                        type="button"
-                        class="different-account"
-                    >
-                        استخدام حساب آخر
-                    </button>
-
+                <div id="existingSession" class="existing-session">
+                    <div class="session-icon">👋</div>
+                    <div><span>مرحباً بعودتك</span><strong id="sessionUserName">مستخدم Vertex</strong></div>
+                    <button id="continueSessionBtn" type="button">متابعة</button>
+                    <button id="differentAccountBtn" type="button" class="different-account">استخدام حساب آخر</button>
                 </div>
 
-
-
-                <!-- =================================
-                     النموذج
-                ================================== -->
-
-                <form
-                    id="loginForm"
-                    novalidate
-                >
-
-
-                    <!-- الاسم -->
-
+                <form id="loginForm" novalidate>
                     <div class="input-group">
-
-                        <label for="nameInput">
-                            الاسم (اختياري)
-                        </label>
-
-
+                        <label for="nameInput">الاسم (اختياري)</label>
                         <div class="input-wrapper">
-
-                            <span class="input-icon">
-                                👤
-                            </span>
-
-
-                            <input
-                                id="nameInput"
-                                type="text"
-                                placeholder="اكتب اسم العرض"
-                                autocomplete="name"
-                                maxlength="40"
-                            >
-
+                            <span class="input-icon">👤</span>
+                            <input id="nameInput" type="text" placeholder="اكتب اسم العرض" autocomplete="name" maxlength="40">
                         </div>
-
-
-                        <small
-                            id="nameError"
-                            class="error-message"
-                        ></small>
-
+                        <small id="nameError" class="error-message"></small>
                     </div>
 
-
-
-                    <!-- البريد -->
-
                     <div class="input-group">
-
-                        <label for="emailInput">
-                            البريد الإلكتروني
-                        </label>
-
-
+                        <label for="emailInput">البريد الإلكتروني</label>
                         <div class="input-wrapper">
-
-                            <span class="input-icon">
-                                ✉️
-                            </span>
-
-
-                            <input
-                                id="emailInput"
-                                type="email"
-                                placeholder="name@example.com"
-                                autocomplete="email"
-                            >
-
+                            <span class="input-icon">✉️</span>
+                            <input id="emailInput" type="email" placeholder="name@example.com" autocomplete="email">
                         </div>
-
-
-                        <small
-                            id="emailError"
-                            class="error-message"
-                        ></small>
-
+                        <small id="emailError" class="error-message"></small>
                     </div>
 
-
-
-                    <!-- كلمة المرور -->
-
                     <div class="input-group">
-
-                        <label for="passwordInput">
-                            كلمة المرور
-                        </label>
-
-
+                        <label for="passwordInput">كلمة المرور</label>
                         <div class="input-wrapper">
-
-                            <span class="input-icon">
-                                🔒
-                            </span>
-
-
-                            <input
-                                id="passwordInput"
-                                type="password"
-                                placeholder="أدخل كلمة المرور"
-                                autocomplete="current-password"
-                            >
-
-
-                            <button
-                                id="togglePasswordBtn"
-                                type="button"
-                                class="password-toggle"
-                                aria-label="إظهار كلمة المرور"
-                            >
-                                👁️
-                            </button>
-
+                            <span class="input-icon">🔒</span>
+                            <input id="passwordInput" type="password" placeholder="أدخل كلمة المرور" autocomplete="current-password">
+                            <button id="togglePasswordBtn" type="button" class="password-toggle" aria-label="إظهار كلمة المرور">👁️</button>
                         </div>
-
-
-                        <small
-                            id="passwordError"
-                            class="error-message"
-                        ></small>
-
+                        <small id="passwordError" class="error-message"></small>
                     </div>
-
-
-
-                    <!-- الخيارات -->
 
                     <div class="login-options">
-
-                        <label class="remember-row">
-
-                            <input
-                                id="rememberMe"
-                                type="checkbox"
-                            >
-
-                            <span>
-                                تذكر البريد الإلكتروني
-                            </span>
-
-                        </label>
-
-
-                        <button
-                            id="forgotPasswordBtn"
-                            type="button"
-                            class="text-button"
-                        >
-                            نسيت كلمة المرور؟
-                        </button>
-
+                        <label class="remember-row"><input id="rememberMe" type="checkbox"><span>تذكر البريد الإلكتروني</span></label>
+                        <button id="forgotPasswordBtn" type="button" class="text-button">نسيت كلمة المرور؟</button>
                     </div>
 
+                    <div id="formMessage" class="form-message"></div>
 
-
-                    <!-- =================================
-                         رسالة عامة
-                    ================================== -->
-
-                    <div
-                        id="formMessage"
-                        class="form-message"
-                    ></div>
-
-
-
-                    <!-- =================================
-                         زر الدخول
-                    ================================== -->
-
-                    <button
-                        id="submitBtn"
-                        type="submit"
-                        class="login-submit"
-                    >
-
-                        <span id="submitText">
-                            تسجيل الدخول
-                        </span>
-
-
-                        <span
-                            id="submitArrow"
-                            class="submit-arrow"
-                        >
-                            ←
-                        </span>
-
-
-                        <span
-                            id="loadingSpinner"
-                            class="loading-spinner"
-                        ></span>
-
+                    <button id="submitBtn" type="submit" class="login-submit">
+                        <span id="submitText">تسجيل الدخول</span>
+                        <span id="submitArrow" class="submit-arrow">←</span>
+                        <span id="loadingSpinner" class="loading-spinner"></span>
                     </button>
-
-
                 </form>
 
-
-
-                <!-- =================================
-                     إنشاء حساب جديد
-                ================================== -->
-
-                <button
-                    type="button"
-                    class="back-home"
-                    onclick="window.location.href='signup.html'"
-                >
-                    ✨ إنشاء حساب جديد
-                </button>
-
-
-
-                <!-- =================================
-                     معلومات النسخة المحلية
-                ================================== -->
+                <button type="button" class="back-home" onclick="window.location.href='signup.html'">✨ إنشاء حساب جديد</button>
 
                 <div class="local-note">
-
-                    <span>
-                        🛡️
-                    </span>
-
-
-                    <p>
-                        تسجيل الدخول محمي عبر Supabase.
-                        كلمة المرور لا يتم حفظها داخل كود الموقع.
-                    </p>
-
+                    <span>🛡️</span>
+                    <p>تسجيل الدخول محمي عبر Supabase. كلمة المرور لا يتم حفظها داخل كود الموقع.</p>
                 </div>
 
-
-
-                <!-- =================================
-                     العودة
-                ================================== -->
-
-                <button
-                    id="backHomeBtn"
-                    class="back-home"
-                >
-                    ← العودة إلى الصفحة الرئيسية
-                </button>
-
-
+                <button id="backHomeBtn" class="back-home">← العودة إلى الصفحة الرئيسية</button>
             </div>
-
-
         </section>
-
-
     </main>
 
-
-
-    <!-- =========================================
-         نافذة نسيت كلمة المرور
-    ========================================== -->
-
-    <div
-        id="forgotModal"
-        class="modal"
-    >
-
+    <div id="forgotModal" class="modal">
         <div class="modal-overlay"></div>
-
-
         <div class="modal-card">
-
-
-            <button
-                id="closeModalBtn"
-                class="modal-close"
-                aria-label="إغلاق"
-            >
-                ✕
-            </button>
-
-
-            <div class="modal-icon">
-                🔐
-            </div>
-
-
-            <h2 id="forgotModalTitle">
-                استعادة كلمة المرور
-            </h2>
-
-
-            <p id="forgotModalText">
-                سنرسل رابط استعادة كلمة المرور إلى البريد المكتوب في نموذج تسجيل الدخول.
-            </p>
-
-
-            <div id="recoveryFields" hidden>
-
-                <div class="input-group">
-                    <label for="newPasswordInput">
-                        كلمة المرور الجديدة
-                    </label>
-
-                    <div class="input-wrapper">
-                        <span class="input-icon">🔒</span>
-                        <input
-                            id="newPasswordInput"
-                            type="password"
-                            placeholder="12 حرفًا على الأقل"
-                            autocomplete="new-password"
-                        >
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <label for="confirmNewPasswordInput">
-                        تأكيد كلمة المرور الجديدة
-                    </label>
-
-                    <div class="input-wrapper">
-                        <span class="input-icon">🔐</span>
-                        <input
-                            id="confirmNewPasswordInput"
-                            type="password"
-                            placeholder="أعد كتابة كلمة المرور"
-                            autocomplete="new-password"
-                        >
-                    </div>
-                </div>
-
-            </div>
-
-
-            <button
-                id="modalOkBtn"
-                type="button"
-                class="modal-button"
-            >
-                إرسال رابط الاستعادة
-            </button>
-
-
+            <button id="closeModalBtn" class="modal-close" aria-label="إغلاق">✕</button>
+            <div class="modal-icon">🔐</div>
+            <h2 id="forgotModalTitle">استعادة كلمة المرور</h2>
+            <p id="forgotModalText">سنرسل رابط استعادة كلمة المرور إلى البريد المكتوب في نموذج تسجيل الدخول.</p>
+            <button id="modalOkBtn" type="button" class="modal-button">إرسال رابط الاستعادة</button>
         </div>
-
     </div>
-
-
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
     <script src="login.js"></script>
-
-
     <script src="site-analytics.js?v=20260905-3"></script>
 </body>
-
 </html>
