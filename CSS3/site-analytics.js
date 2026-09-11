@@ -109,36 +109,102 @@
         });
     }
 
-    function loadMixpanel(info) {
-        if (window.mixpanel && typeof window.mixpanel.init === "function") {
-            initMixpanel(info);
-            return;
-        }
+    function installMixpanelSnippet() {
+        const current = window.mixpanel;
+        if (current && current.__SV) return;
 
-        const existing = document.querySelector('script[data-vertex-mixpanel="1"]');
-        if (existing) return;
+        const b = current || [];
+        window.mixpanel = b;
+        b._i = [];
+
+        b.init = function (token, config, name) {
+            function makeMethod(target, method) {
+                const parts = method.split(".");
+                if (parts.length === 2) {
+                    target = target[parts[0]];
+                    method = parts[1];
+                }
+                target[method] = function () {
+                    target.push([method].concat(Array.prototype.slice.call(arguments, 0)));
+                };
+            }
+
+            let instance = b;
+            if (typeof name !== "undefined") {
+                instance = b[name] = [];
+            } else {
+                name = "mixpanel";
+            }
+
+            instance.people = instance.people || [];
+            instance.toString = function (stub) {
+                let label = "mixpanel";
+                if (name !== "mixpanel") label += "." + name;
+                if (!stub) label += " (stub)";
+                return label;
+            };
+            instance.people.toString = function () {
+                return instance.toString(1) + ".people (stub)";
+            };
+
+            const methods = (
+                "disable time_event track track_pageview track_links track_forms track_with_groups " +
+                "add_group set_group remove_group register register_once alias unregister identify name_tag " +
+                "set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking " +
+                "clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset " +
+                "people.increment people.append people.union people.track_charge people.clear_charges " +
+                "people.delete_user people.remove"
+            ).split(" ");
+
+            for (let i = 0; i < methods.length; i++) {
+                makeMethod(instance, methods[i]);
+            }
+
+            const groupMethods = "set set_once union unset remove delete".split(" ");
+            instance.get_group = function () {
+                const group = {};
+                const groupArgs = ["get_group"].concat(Array.prototype.slice.call(arguments, 0));
+                for (let i = 0; i < groupMethods.length; i++) {
+                    const method = groupMethods[i];
+                    group[method] = function () {
+                        instance.push([groupArgs, [method].concat(Array.prototype.slice.call(arguments, 0))]);
+                    };
+                }
+                return group;
+            };
+
+            b._i.push([token, config, name]);
+        };
+
+        b.__SV = 1.2;
 
         const script = document.createElement("script");
-        script.src = "https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";
+        script.type = "text/javascript";
         script.async = true;
+        script.src = "https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";
         script.dataset.vertexMixpanel = "1";
-        script.onload = function () {
-            initMixpanel(info);
-        };
         script.onerror = function () {
             // Mixpanel failure must never affect Vertex.
         };
-        document.head.appendChild(script);
+
+        const firstScript = document.getElementsByTagName("script")[0];
+        if (firstScript && firstScript.parentNode) {
+            firstScript.parentNode.insertBefore(script, firstScript);
+        } else {
+            document.head.appendChild(script);
+        }
     }
 
-    function initMixpanel(info) {
+    function loadMixpanel(info) {
         try {
+            installMixpanelSnippet();
             if (!window.mixpanel || typeof window.mixpanel.init !== "function") return;
             if (window.__vertexMixpanelReady) return;
 
             window.mixpanel.init(MIXPANEL_TOKEN, {
                 api_host: MIXPANEL_API_HOST,
                 persistence: "localStorage",
+                autocapture: false,
                 track_pageview: false,
                 debug: false
             });
