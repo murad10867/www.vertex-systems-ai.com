@@ -6,13 +6,27 @@
   const planName = document.getElementById("planName");
   const planPrice = document.getElementById("planPrice");
   const planDescription = document.getElementById("planDescription");
+  const moyasarForm = document.getElementById("moyasarForm");
+
+  function clearMessages() {
+    if (setupMessage) {
+      setupMessage.hidden = true;
+      setupMessage.textContent = "";
+    }
+    if (checkoutError) {
+      checkoutError.hidden = true;
+      checkoutError.textContent = "";
+    }
+  }
 
   function showSetup(message) {
+    if (!setupMessage) return;
     setupMessage.hidden = false;
     setupMessage.textContent = message;
   }
 
   function showError(message) {
+    if (!checkoutError) return;
     checkoutError.hidden = false;
     checkoutError.textContent = message;
   }
@@ -25,6 +39,8 @@
   }
 
   async function initCheckout() {
+    clearMessages();
+
     const billing = window.VERTEX_BILLING;
     const selectedPlan = getSelectedPlan();
     const plan = billing?.plans?.[selectedPlan];
@@ -61,12 +77,12 @@
 
       const publishableKey = String(billing.moyasarPublishableKey || "").trim();
       if (!publishableKey) {
-        showSetup("✅ صفحة الدفع جاهزة. باقي ربط حساب Moyasar وإضافة مفتاح الاختبار العام pk_test لتظهر خانات الدفع هنا.");
+        showSetup("صفحة الدفع جاهزة، لكن مفتاح Moyasar العام غير مضاف بعد.");
         return;
       }
 
-      if (!publishableKey.startsWith("pk_")) {
-        showError("مفتاح Moyasar العام غير صحيح. يجب أن يبدأ بـ pk_.");
+      if (!/^pk_(test|live)_/i.test(publishableKey)) {
+        showError("مفتاح Moyasar العام غير صحيح.");
         return;
       }
 
@@ -75,10 +91,16 @@
         return;
       }
 
+      if (!moyasarForm) {
+        showError("تعذر العثور على مكان نموذج الدفع في الصفحة.");
+        return;
+      }
+
+      moyasarForm.innerHTML = "";
       const callbackUrl = new URL("payment-result.html", window.location.href).href;
 
-      window.Moyasar.init({
-        element: "#moyasarForm",
+      const initResult = window.Moyasar.init({
+        element: moyasarForm,
         amount: plan.amountHalalas,
         currency: billing.currency || "SAR",
         description: plan.name + " monthly subscription",
@@ -92,10 +114,21 @@
           vertex_plan: selectedPlan,
           vertex_user_id: session.user.id
         },
-        credit_card: {
-          save_card: true
+        on_failure: function (error) {
+          console.error("Moyasar form failure:", error);
+          showError("تعذر بدء عملية الدفع عبر Moyasar. جرّب إعادة تحميل الصفحة.");
         }
       });
+
+      if (initResult && typeof initResult.then === "function") {
+        await initResult;
+      }
+
+      setTimeout(function () {
+        if (!moyasarForm.children.length && !checkoutError?.hidden === false) {
+          showError("لم يظهر نموذج الدفع من Moyasar. أعد تحميل الصفحة مرة واحدة، وإذا استمر أرسل لنا هذه الشاشة.");
+        }
+      }, 1800);
     } catch (error) {
       console.error("Vertex checkout error:", error);
       showError("حدث خطأ أثناء تجهيز الدفع. أعد المحاولة.");
