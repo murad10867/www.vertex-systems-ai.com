@@ -16,7 +16,19 @@
         document.body.appendChild(share);
     }
 
+    // Replace the old paperclip shortcut with a clear Create Image button,
+    // while keeping file/PDF upload available from a small + button.
+    function loadCreateImageShortcut() {
+        if (document.getElementById("vertexCreateImageShortcutScript")) return;
+        const shortcut = document.createElement("script");
+        shortcut.id = "vertexCreateImageShortcutScript";
+        shortcut.src = "ai-create-image-button.js?v=20260912-1";
+        shortcut.defer = true;
+        document.body.appendChild(shortcut);
+    }
+
     loadShareTools();
+    loadCreateImageShortcut();
 
     // Voice emblem: rounded square matching the Vertex V logo style.
     if (!document.getElementById("vertexVoiceSquareStyle")) {
