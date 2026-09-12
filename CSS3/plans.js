@@ -48,14 +48,9 @@
         accountLink.textContent = "عودة";
       }
 
-      const subscriptionResult = await supabaseClient
-        .from("vertex_subscriptions")
-        .select("plan,status,current_period_end")
-        .eq("user_id", session.user.id)
-        .maybeSingle();
-
-      if (!subscriptionResult.error && subscriptionResult.data?.plan) {
-        currentPlan = subscriptionResult.data.plan;
+      const entitlementResult = await supabaseClient.rpc("vertex_get_entitlements");
+      if (!entitlementResult.error && entitlementResult.data?.plan) {
+        currentPlan = entitlementResult.data.plan;
       }
     } catch (error) {
       console.warn("Could not load Vertex subscription:", error);
