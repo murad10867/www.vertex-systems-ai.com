@@ -16,18 +16,7 @@
         document.body.appendChild(share);
     }
 
-    // Load image analysis / vision tools.
-    function loadVisionTools() {
-        if (document.getElementById("vertexVisionScript")) return;
-        const vision = document.createElement("script");
-        vision.id = "vertexVisionScript";
-        vision.src = "ai-vision.js?v=20260912-1";
-        vision.defer = true;
-        document.body.appendChild(vision);
-    }
-
     loadShareTools();
-    loadVisionTools();
 
     // Voice emblem: rounded square matching the Vertex V logo style.
     if (!document.getElementById("vertexVoiceSquareStyle")) {
