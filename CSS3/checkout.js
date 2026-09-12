@@ -25,7 +25,14 @@
     setupMessage.textContent = message;
   }
 
+  function hideSetup() {
+    if (!setupMessage) return;
+    setupMessage.hidden = true;
+    setupMessage.textContent = "";
+  }
+
   function showError(message) {
+    hideSetup();
     if (!checkoutError) return;
     checkoutError.hidden = false;
     checkoutError.textContent = message;
@@ -96,6 +103,10 @@
         return;
       }
 
+      showSetup(publishableKey.startsWith("pk_test_")
+        ? "🧪 جاري تحميل نموذج الدفع التجريبي..."
+        : "جاري تحميل نموذج الدفع...");
+
       moyasarForm.innerHTML = "";
       const callbackUrl = new URL("payment-result.html", window.location.href).href;
 
@@ -125,7 +136,11 @@
       }
 
       setTimeout(function () {
-        if (!moyasarForm.children.length && !checkoutError?.hidden === false) {
+        if (moyasarForm.children.length) {
+          hideSetup();
+          return;
+        }
+        if (checkoutError?.hidden !== false) {
           showError("لم يظهر نموذج الدفع من Moyasar. أعد تحميل الصفحة مرة واحدة، وإذا استمر أرسل لنا هذه الشاشة.");
         }
       }, 1800);
