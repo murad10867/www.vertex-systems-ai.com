@@ -7,7 +7,7 @@
   <meta name="robots" content="noindex,nofollow">
   <title>الدفع | Vertex Systems AI</title>
   <link rel="icon" type="image/png" href="img/logo3.png">
-  <link rel="stylesheet" href="billing.css">
+  <link rel="stylesheet" href="billing.css?v=20260915-promo1">
   <link rel="stylesheet" href="https://cdn.moyasar.com/mpf/1.15.0/moyasar.css">
   <script src="auth.js"></script>
 </head>
@@ -38,6 +38,16 @@
       <article class="panel payment-panel">
         <h2>إتمام الاشتراك</h2>
         <p class="muted">الدفع بالريال السعودي عبر Moyasar.</p>
+
+        <div class="promo-box">
+          <label for="promoCode">عندك كود بطاقة اشتراك؟</label>
+          <div class="promo-row">
+            <input id="promoCode" type="text" maxlength="30" autocomplete="off" spellcheck="false" placeholder="اكتب كود البطاقة">
+            <button id="redeemPromoBtn" type="button">تفعيل مجاني</button>
+          </div>
+          <div id="promoMessage" class="promo-message" hidden></div>
+        </div>
+
         <div id="setupMessage" class="setup-message" hidden></div>
         <div id="checkoutError" class="error-box" hidden></div>
         <div class="mysr-form" id="moyasarForm"></div>
@@ -46,8 +56,8 @@
   </main>
 
   <script src="https://cdn.moyasar.com/mpf/1.15.0/moyasar.js"></script>
-  <script src="billing-config.js?v=20260912-test2"></script>
-  <script src="checkout.js?v=20260912-mysrfix2"></script>
+  <script src="billing-config.js?v=20260915-live1"></script>
+  <script src="checkout.js?v=20260915-promo1"></script>
   <script src="site-analytics.js?v=20260911-billing-1"></script>
 </body>
 </html>
