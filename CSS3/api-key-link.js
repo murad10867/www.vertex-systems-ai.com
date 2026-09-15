@@ -1,4 +1,4 @@
-// Compatibility bootstrap: API Key shortcut removed; load Vertex Voice instead.
+// Compatibility bootstrap: API Key shortcut removed; load Vertex Voice and composer helpers.
 (function () {
     "use strict";
 
@@ -16,19 +16,19 @@
         document.body.appendChild(share);
     }
 
-    // Replace the old paperclip shortcut with a clear Create Image button,
-    // while keeping file/PDF upload available from a small + button.
-    function loadCreateImageShortcut() {
-        if (document.getElementById("vertexCreateImageShortcutScript")) return;
-        const shortcut = document.createElement("script");
-        shortcut.id = "vertexCreateImageShortcutScript";
-        shortcut.src = "ai-create-image-button.js?v=20260912-1";
-        shortcut.defer = true;
-        document.body.appendChild(shortcut);
+    // Keep the composer simple: one + button and the microphone.
+    // The + menu still provides Create Image and image/PDF upload.
+    function loadSimpleComposer() {
+        if (document.getElementById("vertexSimpleComposerScript")) return;
+        const composer = document.createElement("script");
+        composer.id = "vertexSimpleComposerScript";
+        composer.src = "ai-composer-simple.js?v=20260915-2";
+        composer.defer = true;
+        document.body.appendChild(composer);
     }
 
     loadShareTools();
-    loadCreateImageShortcut();
+    loadSimpleComposer();
 
     // Voice emblem: rounded square matching the Vertex V logo style.
     if (!document.getElementById("vertexVoiceSquareStyle")) {
