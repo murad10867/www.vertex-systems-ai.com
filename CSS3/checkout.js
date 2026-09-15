@@ -7,6 +7,12 @@
   const planPrice = document.getElementById("planPrice");
   const planDescription = document.getElementById("planDescription");
   const moyasarForm = document.getElementById("moyasarForm");
+  const promoCode = document.getElementById("promoCode");
+  const redeemPromoBtn = document.getElementById("redeemPromoBtn");
+  const promoMessage = document.getElementById("promoMessage");
+
+  let activeClient = null;
+  let activePlan = "pro";
 
   function clearMessages() {
     if (setupMessage) {
@@ -38,11 +44,87 @@
     checkoutError.textContent = message;
   }
 
+  function showPromoMessage(message, type) {
+    if (!promoMessage) return;
+    promoMessage.hidden = false;
+    promoMessage.className = "promo-message " + (type === "success" ? "promo-success" : "promo-error");
+    promoMessage.textContent = message;
+  }
+
   function getSelectedPlan() {
     const queryPlan = new URLSearchParams(window.location.search).get("plan");
     const storedPlan = localStorage.getItem("vertexSelectedPlan");
     const plan = queryPlan || storedPlan || "pro";
     return plan === "plus" ? "plus" : "pro";
+  }
+
+  async function parseFunctionError(error, data) {
+    if (data && typeof data === "object") return data;
+    try {
+      const response = error?.context;
+      if (response && typeof response.json === "function") {
+        return await response.json();
+      }
+    } catch (_) {}
+    return null;
+  }
+
+  async function redeemPromo() {
+    if (!activeClient || !promoCode || !redeemPromoBtn) return;
+
+    const code = String(promoCode.value || "").trim();
+    if (!code) {
+      showPromoMessage("اكتب كود البطاقة أولًا.", "error");
+      promoCode.focus();
+      return;
+    }
+
+    redeemPromoBtn.disabled = true;
+    redeemPromoBtn.textContent = "جاري التفعيل...";
+    if (promoMessage) promoMessage.hidden = true;
+
+    try {
+      const { data, error } = await activeClient.functions.invoke("vertex-promo-redeem", {
+        body: { code, plan: activePlan }
+      });
+
+      if (error) {
+        const payload = await parseFunctionError(error, data);
+        if (payload?.error === "promo_already_used") {
+          showPromoMessage("تم استخدام هذا الكود على حسابك من قبل.", "error");
+        } else if (payload?.error === "invalid_promo_code") {
+          showPromoMessage("كود البطاقة غير صحيح.", "error");
+        } else {
+          showPromoMessage("تعذر تفعيل الكود الآن. جرّب مرة أخرى.", "error");
+        }
+        return;
+      }
+
+      if (!data?.success) {
+        showPromoMessage(data?.message || "تعذر تفعيل الكود.", "error");
+        return;
+      }
+
+      const label = data.plan === "plus" ? "Plus" : "Pro";
+      const expiry = data.current_period_end
+        ? new Intl.DateTimeFormat("ar-SA", { dateStyle: "long" }).format(new Date(data.current_period_end))
+        : "بعد شهر";
+
+      localStorage.removeItem("vertexSelectedPlan");
+      clearMessages();
+      if (moyasarForm) moyasarForm.hidden = true;
+      promoCode.disabled = true;
+      redeemPromoBtn.textContent = "تم التفعيل ✓";
+      showPromoMessage("تم تفعيل Vertex " + label + " مجانًا. اشتراكك فعال حتى " + expiry + ".", "success");
+    } catch (error) {
+      console.error("Vertex promo redemption error:", error);
+      showPromoMessage("حدث خطأ أثناء تفعيل الكود. جرّب مرة أخرى.", "error");
+    } finally {
+      if (!promoCode.disabled) {
+        redeemPromoBtn.disabled = false;
+        redeemPromoBtn.textContent = "تفعيل مجاني";
+      }
+    }
   }
 
   async function initCheckout() {
@@ -51,6 +133,7 @@
     const billing = window.VERTEX_BILLING;
     const selectedPlan = getSelectedPlan();
     const plan = billing?.plans?.[selectedPlan];
+    activePlan = selectedPlan;
 
     if (!billing || !plan) {
       showError("تعذر تحميل إعدادات الاشتراك.");
@@ -71,6 +154,8 @@
         showError("تعذر الاتصال بحساب Vertex. أعد تحميل الصفحة.");
         return;
       }
+
+      activeClient = client;
 
       const sessionResult = await client.auth.getSession();
       const session = sessionResult?.data?.session;
@@ -108,6 +193,7 @@
         : "جاري تحميل نموذج الدفع...");
 
       moyasarForm.innerHTML = "";
+      moyasarForm.hidden = false;
       const callbackUrl = new URL("payment-result.html", window.location.href).href;
 
       const initResult = window.Moyasar.init({
@@ -149,6 +235,14 @@
       showError("حدث خطأ أثناء تجهيز الدفع. أعد المحاولة.");
     }
   }
+
+  redeemPromoBtn?.addEventListener("click", redeemPromo);
+  promoCode?.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      redeemPromo();
+    }
+  });
 
   initCheckout();
 })();
