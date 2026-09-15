@@ -58,6 +58,10 @@
     return plan === "plus" ? "plus" : "pro";
   }
 
+  function subscriptionName(plan) {
+    return plan === "plus" ? "Vertex AI Plus" : "Vertex AI Pro";
+  }
+
   async function parseFunctionError(error, data) {
     if (data && typeof data === "object") return data;
     try {
@@ -115,7 +119,7 @@
       if (moyasarForm) moyasarForm.hidden = true;
       promoCode.disabled = true;
       redeemPromoBtn.textContent = "تم التفعيل ✓";
-      showPromoMessage("تم تفعيل Vertex " + label + " مجانًا. اشتراكك فعال حتى " + expiry + ".", "success");
+      showPromoMessage("تم تفعيل Vertex AI " + label + " مجانًا. اشتراكك فعال حتى " + expiry + ".", "success");
     } catch (error) {
       console.error("Vertex promo redemption error:", error);
       showPromoMessage("حدث خطأ أثناء تفعيل الكود. جرّب مرة أخرى.", "error");
@@ -140,11 +144,12 @@
       return;
     }
 
-    planName.textContent = plan.name;
+    const displayName = subscriptionName(selectedPlan);
+    planName.textContent = displayName;
     planPrice.textContent = String(plan.amountHalalas / 100);
     planDescription.textContent = selectedPlan === "plus"
-      ? "أعلى خطة في Vertex مع أعلى حدود الاستخدام."
-      : "الخطة المتوسطة للاستخدام المستمر والمزايا المتقدمة.";
+      ? "اشتراك Vertex AI Plus بأعلى حدود الاستخدام."
+      : "اشتراك Vertex AI Pro للاستخدام المستمر والمزايا المتقدمة.";
 
     try {
       if (window.VertexAuth?.init) await window.VertexAuth.init();
@@ -200,7 +205,7 @@
         element: moyasarForm,
         amount: plan.amountHalalas,
         currency: billing.currency || "SAR",
-        description: plan.name + " monthly subscription",
+        description: displayName + " monthly subscription",
         publishable_api_key: publishableKey,
         callback_url: callbackUrl,
         supported_networks: ["mada", "visa", "mastercard"],
