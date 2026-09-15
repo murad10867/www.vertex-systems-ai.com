@@ -13,6 +13,8 @@
         style.textContent = `
             #vertexVisionButton,
             #vertexAttachmentLaunchBtn,
+            #vertexCreateImageBtn,
+            #vertexAttachmentButton,
             #clearInputBtn {
                 display: none !important;
             }
