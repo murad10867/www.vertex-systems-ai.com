@@ -27,8 +27,19 @@
         document.body.appendChild(composer);
     }
 
+    // Remove emoji, decorative shapes and symbols before speech synthesis.
+    function loadVoiceSanitizer() {
+        if (document.getElementById("vertexVoiceSanitizerScript")) return;
+        const sanitizer = document.createElement("script");
+        sanitizer.id = "vertexVoiceSanitizerScript";
+        sanitizer.src = "ai-voice-sanitize.js?v=20260915-1";
+        sanitizer.defer = true;
+        document.body.appendChild(sanitizer);
+    }
+
     loadShareTools();
     loadSimpleComposer();
+    loadVoiceSanitizer();
 
     // Voice emblem: rounded square matching the Vertex V logo style.
     if (!document.getElementById("vertexVoiceSquareStyle")) {
