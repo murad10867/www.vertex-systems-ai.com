@@ -98,8 +98,14 @@ spaceBtn.addEventListener(
 );
 const learningBtn =
     document.getElementById("learningBtn");
-window.location.href =
-    "https://murad10867.github.io/vertex-learning/";
+
+learningBtn.addEventListener(
+    "click",
+    function () {
+        window.location.href =
+            "https://murad10867.github.io/vertex-learning/";
+    }
+);
 
 
 // العودة للوحة التحكم
